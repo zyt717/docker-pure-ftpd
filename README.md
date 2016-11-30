@@ -4,10 +4,10 @@ Docker Pure-ftpd Server
 
 Pull down with docker:
 ```bash
-docker pull stilliard/pure-ftpd:hardened
+docker pull zyt717/docker-pure-ftpd
 ```
 
-**Often needing to run as `sudo`, e.g. `sudo docker pull stilliard/pure-ftpd`**
+**Often needing to run as `sudo`, e.g. `sudo docker pull zyt717/docker-pure-ftpd`**
 
 ----------------------------------------
 
@@ -17,7 +17,7 @@ This is because rebuilding the entire docker image via a fork can be slow as it 
 Instead you can create a new project with a `DOCKERFILE` like so:
 
 ```
-FROM stilliard/pure-ftpd
+FROM zyt717/docker-pure-ftpd
 
 # e.g. you could change the defult command run:
 CMD /run.sh -c 30 -C 5 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R 
@@ -30,9 +30,9 @@ CMD /run.sh -c 30 -C 5 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R
 Starting it 
 ------------------------------
 
-`docker run -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" stilliard/pure-ftpd:hardened`
+`docker run -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost"  -e "PASVPORT=30000:30009"  zyt717/docker-pure-ftpd`
 
-*Or for your own image, replace stilliard/pure-ftpd with the name you built it with, e.g. my-pure-ftp*
+*Or for your own image, replace zyt717/docker-pure-ftpd with the name you built it with, e.g. my-pure-ftp*
 
 Operating it
 ------------------------------
@@ -57,31 +57,6 @@ From the host machine:
 ```bash
 ftp -p localhost 21
 ```
-
-----------------------------------------
-
-Tags available for different versions
---------------------------------------
-
-**Latest versions**
-
-- `latest` - latest working version
-- `jessie-latest` - latest but will always remain on debian jessie
-- `hardened` - latest + [more secure/hardened defaults](https://github.com/stilliard/docker-pure-ftpd/issues/10)
-
-**Previous version before tags were introduced**
-
-- `wheezy-1.0.36` - incase you want to roll back to before we started using debian jessie
-
-**Specific pure-ftpd versions**
-
-- `jessie-1.x.x` - jessie + specific versions, e.g. jessie-1.0.36
-- `hardened-1.x.x` - hardened + specific versions
-
-*Check the tags on github for available versions, feel free to submit issues and/or pull requests for newer versions*
-
-Usage of specific tags: 
-`sudo docker pull stilliard/pure-ftpd:hardened-1.0.36`
 
 ----------------------------------------
 
@@ -119,7 +94,7 @@ docker volume create --name my-db-volume
 
 Specify it when running the container:
 ```
-docker run -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" stilliard/pure-ftpd:hardened -v my-db-volume:/etc/pure-ftpd/passwd
+docker run -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" -v my-db-volume:/etc/pure-ftpd/passwd zyt717/docker-pure-ftpd
 ```
 
 When an user is added, you need to use the password file which is in the volume:
