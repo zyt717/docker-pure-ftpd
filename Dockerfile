@@ -45,12 +45,12 @@ COPY run.sh /run.sh
 RUN chmod u+x /run.sh
 
 ENV PUBLICHOST ftp.foo.com
-ENV PASSPORT 30000:30009
+ENV PASVPORT 30000:30009
 
 VOLUME ["/home/ftpusers", "/etc/pure-ftpd/passwd"]
 
 # startup
-CMD /run.sh -c 50 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P $PUBLICHOST -p $PASSPORT
+CMD /run.sh -c 50 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P $PUBLICHOST -p $PASVPORT
 
-EXPOSE 21 $PASSPORT
+EXPOSE 21 $PASVPORT
 
